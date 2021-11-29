@@ -46,5 +46,9 @@ module.exports = function (app) {
       if (valid.error) return res.json({ error: valid.error })
 
       // we've passed all the validations, let's get to sudoku-in' now!
+      let puzzleObject = getPuzzleObject(puzzle)
+      let solution = solver.solve(puzzle, puzzleObject)
+      if (solution.error) return res.json({ error: solution.error })
+      res.json(solution)
     });
 };

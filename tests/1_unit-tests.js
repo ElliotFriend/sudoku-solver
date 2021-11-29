@@ -154,9 +154,18 @@ suite('UnitTests', () => {
   })
 
   suite('Attempting to Solve Puzzles', () => {
-    // Valid puzzle strings pass the solver
-    // Invalid puzzle strings fail the solver
-    // Solver returns the expected solution for an incomplete puzzle
+
+    test('Valid puzzle strings pass the solver', () => {
+      assert.equal(true, false)
+    })
+
+    test('Invalid puzzle strings fail the solver', () => {
+      assert.equal(true, false)
+    })
+
+    test('Solver returns the expected solution for an incomplete puzzle', () => {
+      assert.equal(true, false)
+    })
   })
 
 });
