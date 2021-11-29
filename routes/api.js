@@ -30,7 +30,7 @@ module.exports = function (app) {
       let isValid = solver.validate(puzzle)
       if (isValid.error) return res.json({ error: isValid.error })
       if (!/^[A-I]{1}[1-9]{1}$/i.test(coordinate)) return res.json({ error: 'Invalid coordinate' })
-      if (!/^[1-9]{1}$/.test(value)) return res.json({ error: 'invalid value' })
+      if (!/^[1-9]{1}$/.test(value)) return res.json({ error: 'Invalid value' })
 
       // we've passed all the validations, let's get to sudoku-in' now!
       let puzzleObject = getPuzzleObject(puzzle)
