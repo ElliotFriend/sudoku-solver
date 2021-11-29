@@ -11,23 +11,24 @@ suite('UnitTests', () => {
   suite('Validating Puzzle Strings', () => {
 
     test('Logic handles a valid puzzle string of 81 characters', () => {
+      // assert.property(solver.validate(puzzlesAndSolutions[0][0]), 'success', 'Valid strings should get a response object with a success property')
       for (let i in puzzlesAndSolutions) {
-        assert.isOk(solver.validate(puzzlesAndSolutions[i][0]))
-        assert.isTrue(solver.validate(puzzlesAndSolutions[i][0]))
+        assert.property(solver.validate(puzzlesAndSolutions[i][0]), 'success', 'Valid strings should get a response object with a success property')
+        assert.isString(solver.validate(puzzlesAndSolutions[i][0]).success, 'Valid strings should return an object with a success property containing a string')
+        assert.equal(solver.validate(puzzlesAndSolutions[i][0]).success, puzzlesAndSolutions[i][0], 'Valid strings should return an object with a success property containing the same string')
       }
     })
 
     test('Logic handles a puzzle string with invalid characters (not 1-9 or .)', () => {
-      assert.property(solver.validate(invalidPuzzles[0]), 'error')
-      assert.equal(solver.validate(invalidPuzzles[0]).error, 'Invalid characters in puzzle')
+      assert.property(solver.validate(invalidPuzzles[0]), 'error', 'Strings with invalid characters should get a response object with an error property')
+      assert.equal(solver.validate(invalidPuzzles[0]).error, 'Invalid characters in puzzle', 'A helpful error message should be given in response to invalid characters')
     })
 
     test('Logic handles a puzzle string that is not 81 characters in length', () => {
-      assert.property(solver.validate(invalidPuzzles[1]), 'error')
-      assert.equal(solver.validate(invalidPuzzles[1]).error, 'Expected puzzle to be 81 characters long')
-      assert.property(solver.validate(invalidPuzzles[2]), 'error')
-      assert.equal(solver.validate(invalidPuzzles[2]).error, 'Expected puzzle to be 81 characters long')
-
+      assert.property(solver.validate(invalidPuzzles[1]), 'error', 'Strings with fewer than 81 characters should get a response object with an error property')
+      assert.equal(solver.validate(invalidPuzzles[1]).error, 'Expected puzzle to be 81 characters long', 'A helpful error message should be given in response to too few characters')
+      assert.property(solver.validate(invalidPuzzles[2]), 'error', 'Strings with more than 81 characters should get a response object with an error property')
+      assert.equal(solver.validate(invalidPuzzles[2]).error, 'Expected puzzle to be 81 characters long', 'A helpful error message should be given in response to too many characters')
     })
 
   })
