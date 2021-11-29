@@ -36,7 +36,7 @@ module.exports = function (app) {
   app.route('/_api/server.js')
     .get(function(req, res, next) {
       console.log('requested');
-      fs.readFile(__dirname + '/server.js', function(err, data) {
+      fs.readFile(__dirname + '/app.js', function(err, data) {
         if(err) return next(err);
         res.send(data.toString());
       });
@@ -80,7 +80,7 @@ module.exports = function (app) {
     delete res._headers['strict-transport-security'];
     res.json({headers: hObj});
   });
-  
+
 };
 
 function testFilter(tests, type, n) {
