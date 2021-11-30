@@ -1,6 +1,7 @@
 class SudokuSolver {
   constructor() {
     this.getPuzzleObject.bind(this)
+    this.getPuzzleArray.bind(this)
     this.validate.bind(this)
     this.checkRowPlacement.bind(this)
     this.checkColPlacement.bind(this)
@@ -20,6 +21,21 @@ class SudokuSolver {
       return acc
     }, {})
     return puzzleObject
+  }
+
+  getPuzzleArray(puzzleString) {
+    let puzzleArray = Array.from(puzzleString)
+    .reduce((acc, item, i, a) => {
+      let val = item === '.' ? 0 : parseInt(item)
+      let row = Math.floor(i/9)
+      if (i % 9 === 0) {
+        acc[row] = [ val ]
+      } else {
+        acc[row].push(val)
+      }
+      return acc
+    }, [])
+    return puzzleArray
   }
 
   validate(puzzleString) {
@@ -64,6 +80,15 @@ class SudokuSolver {
 
   solve(puzzleString) {
 
+    // const getInfo = (i, puzzleArray) => {
+    //   return {
+    //     value: puzzleArray[i],
+    //     index: i,
+    //     row: String.fromCharCode(97 + Math.floor(i / 9)),
+    //     col: (i % 9) + 1
+    //   }
+    // }
+
     const quickCheck = (pS, r, c, v) => {
       let rowCheck = this.checkRowPlacement(pS, r, c, v)
       let colCheck = this.checkColPlacement(pS, r, c, v)
@@ -71,132 +96,54 @@ class SudokuSolver {
       return (rowCheck && colCheck && regCheck) ? true : false
     }
 
-    const getInfo = (i, puzzleArray) => {
-      return {
-        value: puzzleArray[i],
-        index: i,
-        row: String.fromCharCode(97 + Math.floor(i / 9)),
-        col: (i % 9) + 1
-      }
-    }
-
-    let puzzleArray = puzzleString.split('')
-    // console.log(puzzleArray)
+    const puzzle = puzzleString
+    const puzzleArray = this.getPuzzleArray(puzzle)
     let solutionArray = puzzleArray
-    let i = 0
-    while (i < 81) {
-      let info = getInfo(i, puzzleArray)
-      // {
-      //   value: puzzleArray[i],
-      //   index: i,
-      //   row: String.fromCharCode(97 + Math.floor(i / 9)),
-      //   col: (i % 9) + 1
-      // }
-      if (info.value !== '.') {
-        solutionArray[i] = info.value
-        i++
-      } else {
+    // console.log(solutionArray)
 
-        for (let v = 1; v < 10; v++) {
-          if (quickCheck(solutionArray.join(''), info.row, info.col, v)) {
-            solutionArray[i] = v
-            i++
+    const canBeSolved = (puzzle, solutionArray) => {
+      let row = 0
+      let col = 0
+      let zeroLeft = false
+
+      for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+          if (solutionArray[r][c] === 0) {
+            row = r
+            col = c
+
+            zeroLeft = true
             break
+          }
+        }
+        if (zeroLeft) {
+          break
+        }
+      }
+
+      if (!zeroLeft) {
+        return true
+      }
+
+      for (let n = 1; n <= 9; n++) {
+        if (quickCheck(puzzle, String.fromCharCode(97 + row), col + 1, n)) {
+          solutionArray[row][col] = n
+          // console.log(solutionArray.map(e => e.join('')).join(''))
+          if (canBeSolved(solutionArray.map(e => e.join('')).join(''), solutionArray)) {
+            return true
           } else {
-            if (v === 9) {
-              console.log({...info, v: v})
-              let n = puzzleArray.lastIndexOf('.', i - 1)
-              solutionArray[n] += 1
-              i = n + 1
-              console.log(solutionArray)
-              // i++
-            }
+            solutionArray[row][col] = 0
           }
         }
       }
+      return false
     }
-    // let solutionArray = puzzleArray
-    //   .reduce((acc, item, i, a) => {
-    //     let info = {
-    //       value: item,
-    //       index: i,
-    //       row: String.fromCharCode(97 + Math.floor(i / 9)),
-    //       col: (i % 9) + 1
-    //     }
-    //     // console.log(acc)
-    //     if (item !== '.') {
-    //       return acc
-    //     } else {
-    //       // let stuck = false
-    //       for (let v = 1; v < 10; v++) {
-    //         if (quickCheck(acc.join(''), info.row, info.col, v)) {
-    //           acc[i] = v
-    //           return acc
-    //         } else {
-    //           if (v === 9) {
-    //             console.log(acc)
-    //             console.log({...info, v: v})
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }, puzzleArray)
-    console.log(solutionArray.join(''))
-    // return { solution: solutionArray.join('') }
 
-    // let puzzleObject = this.getPuzzleObject(puzzleString)
-    // if (error) return { error: 'Puzzle cannot be solved' }
-    // let mostNumbers = {
-    //   row: { label: 'a', count: 0 },
-    //   col: { label: 1, count: 0 },
-    //   reg: { label: ['a', 1], count: 0 },
-    // }
-    // for (let [k, v] in puzzleObject) {
-    //   // console.log(puzzleObject[k])
-    //   let rowNumCount = puzzleObject[k].reduce((acc, item, i, a) => {
-    //     return typeof item === 'number' ? acc += 1 : acc
-    //   }, 0)
-    //   if (rowNumCount > mostNumbers.row.count) {
-    //     mostNumbers.row.label = k
-    //     mostNumbers.row.count = rowNumCount
-    //   }
-    // }
-    // console.log(mostNumbers)
-    //
-    // let colNumCount = 0
-    // for (let i = 0; i < 9; i++) {
-    //   for (let r of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']) {
-    //     if (typeof puzzleObject[r][i] === 'number') { colNumCount += 1 }
-    //   }
-    //   if (colNumCount > mostNumbers.col.count) {
-    //     mostNumbers.col.label = i + 1
-    //     mostNumbers.col.count = colNumCount
-    //   }
-    //   colNumCount = 0
-    // }
-    //
-    // const rowRegions = [ ['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i'] ]
-    // const colRegions = [ [0, 1, 2], [3, 4, 5], [6, 7, 8] ]
-    // let regNumCount = 0
-    // for (let row of rowRegions) {
-    //   for (let col of colRegions) {
-    //     for (let r of row) {
-    //       for (let c of col) {
-    //         if (typeof puzzleObject[r][c] === 'number') { regNumCount += 1 }
-    //       }
-    //     }
-    //     if (regNumCount > mostNumbers.reg.count) {
-    //       mostNumbers.reg.label = [ row[0], col[0] + 1 ]
-    //       mostNumbers.reg.count = regNumCount
-    //     }
-    //     console.log(regNumCount)
-    //     regNumCount = 0
-    //   }
-    // }
-    //
-    // console.log(mostNumbers)
-    return {}
-    // return { solution: 'somesolutionishere12834693....'}
+    if (canBeSolved(puzzle, solutionArray)) {
+      return { solution: solutionArray.map(e => e.join('')).join('') }
+    } else {
+      return { error: 'Puzzle cannot be solved' }
+    }
   }
 }
 
