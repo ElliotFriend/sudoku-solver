@@ -22,7 +22,7 @@ module.exports = function (app) {
       let puzzleObject = getPuzzleObject(puzzle)
       let rowLetter = coordinate.substring(0, 1).toLowerCase()
       let colNumber = coordinate.substring(1, 2)
-      let rowCheck = solver.checkRowPlacement(puzzleObject, rowLetter, colNumber, value)
+      let rowCheck = solver.checkRowPlacement(puzzle, rowLetter, colNumber, value)
       let colCheck = solver.checkColPlacement(puzzleObject, rowLetter, colNumber, value)
       let regionCheck = solver.checkRegionPlacement(puzzleObject, rowLetter, colNumber, value)
 
