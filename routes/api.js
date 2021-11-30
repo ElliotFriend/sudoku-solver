@@ -23,8 +23,8 @@ module.exports = function (app) {
       let rowLetter = coordinate.substring(0, 1).toLowerCase()
       let colNumber = coordinate.substring(1, 2)
       let rowCheck = solver.checkRowPlacement(puzzle, rowLetter, colNumber, value)
-      let colCheck = solver.checkColPlacement(puzzleObject, rowLetter, colNumber, value)
-      let regionCheck = solver.checkRegionPlacement(puzzleObject, rowLetter, colNumber, value)
+      let colCheck = solver.checkColPlacement(puzzle, rowLetter, colNumber, value)
+      let regionCheck = solver.checkRegionPlacement(puzzle, rowLetter, colNumber, value)
 
       let responseObject = {
         valid: rowCheck && colCheck && regionCheck ? true : false
@@ -46,9 +46,10 @@ module.exports = function (app) {
       if (valid.error) return res.json({ error: valid.error })
 
       // we've passed all the validations, let's get to sudoku-in' now!
-      let puzzleObject = getPuzzleObject(puzzle)
-      let solution = solver.solve(puzzle, puzzleObject)
-      if (solution.error) return res.json({ error: solution.error })
+      // let puzzleObject = getPuzzleObject(puzzle)
+      let solution = solver.solve(puzzle)
       res.json(solution)
+      // if (solution.error) return res.json({ error: solution.error })
+      // res.json(solution)
     });
 };
