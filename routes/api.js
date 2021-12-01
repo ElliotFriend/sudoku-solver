@@ -19,12 +19,11 @@ module.exports = function (app) {
       if (!/^[1-9]{1}$/.test(value)) return res.json({ error: 'Invalid value' })
 
       // we've passed all the validations, let's get to sudoku-in' now!
-      let puzzleObject = getPuzzleObject(puzzle)
-      let rowLetter = coordinate.substring(0, 1).toLowerCase()
+      let rowNumber = (coordinate.substring(0, 1).toLowerCase()).charCodeAt(0) - 96
       let colNumber = coordinate.substring(1, 2)
-      let rowCheck = solver.checkRowPlacement(puzzle, rowLetter, colNumber, value)
-      let colCheck = solver.checkColPlacement(puzzle, rowLetter, colNumber, value)
-      let regionCheck = solver.checkRegionPlacement(puzzle, rowLetter, colNumber, value)
+      let rowCheck = solver.checkRowPlacement(puzzle, rowNumber, colNumber, value)
+      let colCheck = solver.checkColPlacement(puzzle, rowNumber, colNumber, value)
+      let regionCheck = solver.checkRegionPlacement(puzzle, rowNumber, colNumber, value)
 
       let responseObject = {
         valid: rowCheck && colCheck && regionCheck ? true : false
