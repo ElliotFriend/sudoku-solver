@@ -141,15 +141,59 @@ suite('UnitTests', () => {
   suite('Attempting to Solve Puzzles', () => {
 
     test('Valid puzzle strings pass the solver', () => {
-      assert.equal(true, false)
+      let solveCheck1 = solver.solve(puzzlesAndSolutions[4][0])
+      assert.isNotNull(solveCheck1, 'solve should retun a non-null value')
+      assert.isObject(solveCheck1, 'solve should return an object')
+      assert.property(solveCheck1, 'solution', 'the solve return object should contain a solution property when given a valid, solveable puzzle')
+      assert.isString(solveCheck1.solution, 'the solution property should be a string')
+      // assert.equal(solveCheck1.solution, puzzlesAndSolutions[4][1], 'the solution property should match the known correct solution to the puzzle')
+      let solveCheck2 = solver.solve(puzzlesAndSolutions[3][0])
+      assert.isNotNull(solveCheck2, 'solve should retun a non-null value')
+      assert.isObject(solveCheck2, 'solve should return an object')
+      assert.property(solveCheck2, 'solution', 'the solve return object should contain a solution property when given a valid, solveable puzzle')
+      assert.isString(solveCheck2.solution, 'the solution property should be a string')
+      // assert.equal(solveCheck2.solution, puzzlesAndSolutions[3][1], 'the solution property should match the known correct solution to the puzzle')
+      let solveCheck3 = solver.solve(puzzlesAndSolutions[2][0])
+      assert.isNotNull(solveCheck3, 'solve should retun a non-null value')
+      assert.isObject(solveCheck3, 'solve should return an object')
+      assert.property(solveCheck3, 'solution', 'the solve return object should contain a solution property when given a valid, solveable puzzle')
+      assert.isString(solveCheck3.solution, 'the solution property should be a string')
+      // assert.equal(solveCheck3.solution, puzzlesAndSolutions[2][1], 'the solution property should match the known correct solution to the puzzle')
+      // assert.equal(true, false)
     })
 
     test('Invalid puzzle strings fail the solver', () => {
-      assert.equal(true, false)
+      let solveCheck1 = solver.solve(invalidPuzzles[0]) // invalid characters
+      assert.isNotNull(solveCheck1, 'solve should retun a non-null value')
+      assert.isObject(solveCheck1, 'solve should return an object')
+      assert.property(solveCheck1, 'error', 'the solve return object should contain an error property when given a puzzle with invalid characters')
+      assert.isString(solveCheck1.error, 'the error property should be a string')
+      assert.equal(solveCheck1.error, 'Invalid characters in puzzle', 'the error property should contain helpful information')
+      let solveCheck2 = solver.solve(invalidPuzzles[1]) // too long
+      assert.isNotNull(solveCheck2, 'solve should retun a non-null value')
+      assert.isObject(solveCheck2, 'solve should return an object')
+      assert.property(solveCheck2, 'error', 'the solve return object should contain an error property when given a puzzle with too many characters')
+      assert.isString(solveCheck2.error, 'the error property should be a string')
+      assert.equal(solveCheck2.error, 'Expected puzzle to be 81 characters long', 'the error property should contain helpful information')
+      let solveCheck3 = solver.solve(invalidPuzzles[2]) // too short
+      assert.isNotNull(solveCheck3, 'solve should retun a non-null value')
+      assert.isObject(solveCheck3, 'solve should return an object')
+      assert.property(solveCheck3, 'error', 'the solve return object should contain an error property when given a puzzle with too few characters')
+      assert.isString(solveCheck3.error, 'the error property should be a string')
+      assert.equal(solveCheck3.error, 'Expected puzzle to be 81 characters long', 'the error property should contain helpful information')
+      let solveCheck4 = solver.solve(invalidPuzzles[3]) // cannot be solved
+      assert.isNotNull(solveCheck4, 'solve should retun a non-null value')
+      assert.isObject(solveCheck4, 'solve should return an object')
+      assert.property(solveCheck4, 'error', 'the solve return object should contain an error property when given a puzzle with too few characters')
+      assert.isString(solveCheck4.error, 'the error property should be a string')
+      assert.equal(solveCheck4.error, 'Puzzle cannot be solved', 'the error property should contain helpful information')
     })
 
     test('Solver returns the expected solution for an incomplete puzzle', () => {
-      assert.equal(true, false)
+      for (let i in puzzlesAndSolutions) {
+        let solveCheck = solver.solve(puzzlesAndSolutions[i][0])
+        assert.equal(solveCheck.solution, puzzlesAndSolutions[i][1], 'the solution property should match the known correct solution to the puzzle')
+      }
     })
   })
 

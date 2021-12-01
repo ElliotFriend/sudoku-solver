@@ -97,6 +97,8 @@ class SudokuSolver {
       return (rowCheck && colCheck && regCheck) ? true : false
     }
 
+    let isValid = this.validate(puzzleString)
+    if (isValid.error) return { error: isValid.error }
     const puzzle = puzzleString
     const puzzleArray = this.getPuzzleArray(puzzle)
     let solutionArray = puzzleArray
@@ -127,7 +129,7 @@ class SudokuSolver {
       }
 
       for (let n = 1; n <= 9; n++) {
-        if (quickCheck(puzzle, String.fromCharCode(97 + row), col + 1, n)) {
+        if (quickCheck(puzzle, row + 1, col + 1, n)) {
           solutionArray[row][col] = n
           // console.log(solutionArray.map(e => e.join('')).join(''))
           if (canBeSolved(solutionArray.map(e => e.join('')).join(''), solutionArray)) {
