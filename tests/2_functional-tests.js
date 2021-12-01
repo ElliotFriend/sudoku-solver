@@ -104,15 +104,105 @@ suite('Functional Tests', function() {
 
   suite('Testing the /api/check endpoint', () => {
 
-    // Check a puzzle placement with all fields: POST request to /api/check
-    // Check a puzzle placement with single placement conflict: POST request to /api/check
-    // Check a puzzle placement with multiple placement conflicts: POST request to /api/check
-    // Check a puzzle placement with all placement conflicts: POST request to /api/check
-    // Check a puzzle placement with missing required fields: POST request to /api/check
-    // Check a puzzle placement with invalid characters: POST request to /api/check
-    // Check a puzzle placement with incorrect length: POST request to /api/check
-    // Check a puzzle placement with invalid placement coordinate: POST request to /api/check
-    // Check a puzzle placement with invalid placement value: POST request to /api/check
+    test('Check a puzzle placement with all fields: POST request to /api/check', (done) => {
+      chai.request(server)
+        .post('/api/check')
+        .type('json')
+        .send({ some: 'random', object: 'here' })
+        .end( (err, res) => {
+          assert.equal(true, false)
+          done()
+        })
+    })
+
+    test('Check a puzzle placement with single placement conflict: POST request to /api/check', (done) => {
+      chai.request(server)
+        .post('/api/check')
+        .type('json')
+        .send({ some: 'random', object: 'here' })
+        .end( (err, res) => {
+          assert.equal(true, false)
+          done()
+        })
+    })
+
+    test('Check a puzzle placement with multiple placement conflicts: POST request to /api/check', (done) => {
+      chai.request(server)
+        .post('/api/check')
+        .type('json')
+        .send({ some: 'random', object: 'here' })
+        .end( (err, res) => {
+          assert.equal(true, false)
+          done()
+        })
+    })
+
+    test('Check a puzzle placement with all placement conflicts: POST request to /api/check', (done) => {
+      chai.request(server)
+        .post('/api/check')
+        .type('json')
+        .send({ some: 'random', object: 'here' })
+        .end( (err, res) => {
+          assert.equal(true, false)
+          done()
+        })
+    })
+
+    test('Check a puzzle placement with missing required fields: POST request to /api/check', (done) => {
+      chai.request(server)
+        .post('/api/check')
+        .type('json')
+        .send({ some: 'random', object: 'here' })
+        .end( (err, res) => {
+          assert.equal(true, false)
+          done()
+        })
+    })
+
+    test('Check a puzzle placement with invalid characters: POST request to /api/check', (done) => {
+      chai.request(server)
+        .post('/api/check')
+        .type('json')
+        .send({ some: 'random', object: 'here' })
+        .end( (err, res) => {
+          assert.equal(true, false)
+          done()
+        })
+    })
+
+    test('Check a puzzle placement with incorrect length: POST request to /api/check', (done) => {
+      chai.request(server)
+        .post('/api/check')
+        .type('json')
+        .send({ some: 'random', object: 'here' })
+        .end( (err, res) => {
+          assert.equal(true, false)
+          done()
+        })
+    })
+
+    test('Check a puzzle placement with invalid placement coordinate: POST request to /api/check', (done) => {
+      chai.request(server)
+        .post('/api/check')
+        .type('json')
+        .send({ some: 'random', object: 'here' })
+        .end( (err, res) => {
+          assert.equal(true, false)
+          done()
+        })
+    })
+
+    test('Check a puzzle placement with invalid placement value: POST request to /api/check', (done) => {
+      chai.request(server)
+        .post('/api/check')
+        .type('json')
+        .send({ some: 'random', object: 'here' })
+        .end( (err, res) => {
+          assert.equal(true, false)
+          done()
+        })
+    })
+
 
   })
 
