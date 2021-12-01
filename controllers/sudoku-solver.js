@@ -1,6 +1,6 @@
 class SudokuSolver {
   constructor() {
-    this.getPuzzleObject.bind(this)
+    // this.getPuzzleObject.bind(this)
     this.getPuzzleArray.bind(this)
     this.validate.bind(this)
     this.checkRowPlacement.bind(this)
@@ -8,20 +8,20 @@ class SudokuSolver {
     this.checkRegionPlacement.bind(this)
   }
 
-  getPuzzleObject(puzzleString) {
-    let puzzleObject = Array.from(puzzleString)
-    .reduce((acc, item, i, a) => {
-      let itemValue = item === '.' ? item : parseInt(item)
-      let rowLetter = String.fromCharCode(97 + Math.floor(i/9))
-      if (i % 9 === 0) {
-        acc[rowLetter] = [ itemValue ]
-      } else {
-        acc[rowLetter].push(itemValue)
-      }
-      return acc
-    }, {})
-    return puzzleObject
-  }
+  // getPuzzleObject(puzzleString) {
+  //   let puzzleObject = Array.from(puzzleString)
+  //   .reduce((acc, item, i, a) => {
+  //     let itemValue = item === '.' ? item : parseInt(item)
+  //     let rowLetter = String.fromCharCode(97 + Math.floor(i/9))
+  //     if (i % 9 === 0) {
+  //       acc[rowLetter] = [ itemValue ]
+  //     } else {
+  //       acc[rowLetter].push(itemValue)
+  //     }
+  //     return acc
+  //   }, {})
+  //   return puzzleObject
+  // }
 
   getPuzzleArray(puzzleString) {
     let puzzleArray = Array.from(puzzleString)
@@ -47,32 +47,33 @@ class SudokuSolver {
   }
 
   checkRowPlacement(puzzleString, row, column, value) {
-    let puzzleObject = this.getPuzzleObject(puzzleString)
-    if (puzzleObject[row].includes(parseInt(value))) {
-      return false
-    }
+    let puzzleArray = this.getPuzzleArray(puzzleString)
+    row--
+    if (puzzleArray[row].includes(parseInt(value))) { return false }
     return true
   }
 
   checkColPlacement(puzzleString, row, column, value) {
-    let puzzleObject = this.getPuzzleObject(puzzleString)
-    let col = column - 1
-    for (let [k, v] of Object.entries(puzzleObject)) {
-      if (puzzleObject[k][col] === value) { return false }
+    let puzzleArray = this.getPuzzleArray(puzzleString)
+    column--
+    for (let i = 0; i < 9; i++) {
+      if (puzzleArray[i][column] === parseInt(value)) { return false }
     }
     return true
   }
 
   checkRegionPlacement(puzzleString, row, column, value) {
-    let puzzleObject = this.getPuzzleObject(puzzleString)
-    let col = column - 1
-    const rowRegions = [ ['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i'] ]
+    let puzzleArray = this.getPuzzleArray(puzzleString)
+    column--
+    row--
+    // const rowRegions = [ ['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i'] ]
+    const rowRegions = [ [0, 1, 2], [3, 4, 5], [6, 7, 8] ]
     const colRegions = [ [0, 1, 2], [3, 4, 5], [6, 7, 8] ]
     let regRows = rowRegions.find(item => item.includes(row))
-    let regCols = colRegions.find(item => item.includes(col))
+    let regCols = colRegions.find(item => item.includes(column))
     for (let r of regRows) {
       for (let c of regCols) {
-        if (puzzleObject[r][c] === value) { return false }
+        if (puzzleArray[r][c] === parseInt(value)) { return false }
       }
     }
     return true
