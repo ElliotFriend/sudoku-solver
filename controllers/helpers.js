@@ -12,3 +12,18 @@ export const getPuzzleObject = (puzzleString) => {
   }, {})
   return puzzleObject
 }
+
+export const getPuzzleArray = (puzzleString) => {
+  let puzzleArray = Array.from(puzzleString)
+  .reduce((acc, item, i, a) => {
+    let val = item === '.' ? 0 : parseInt(item)
+    let row = Math.floor(i/9)
+    if (i % 9 === 0) {
+      acc[row] = [ val ]
+    } else {
+      acc[row].push(val)
+    }
+    return acc
+  }, [])
+  return puzzleArray
+}

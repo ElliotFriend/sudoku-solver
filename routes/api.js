@@ -1,6 +1,6 @@
 'use strict';
 
-import { getPuzzleObject } from '../controllers/helpers.js'
+import { getPuzzleArray } from '../controllers/helpers.js'
 const SudokuSolver = require('../controllers/sudoku-solver.js');
 
 module.exports = function (app) {
@@ -21,6 +21,11 @@ module.exports = function (app) {
       // we've passed all the validations, let's get to sudoku-in' now!
       let rowNumber = (coordinate.substring(0, 1).toLowerCase()).charCodeAt(0) - 96
       let colNumber = coordinate.substring(1, 2)
+      let puzzleArray = getPuzzleArray(puzzle)
+      if (puzzleArray[rowNumber - 1][colNumber - 1] === value) {
+        puzzleArray[rowNumber - 1][colNumber - 1] = 0
+        puzzle = puzzleArray.map(e => e.join('')).join('')
+      }
       let rowCheck = solver.checkRowPlacement(puzzle, rowNumber, colNumber, value)
       let colCheck = solver.checkColPlacement(puzzle, rowNumber, colNumber, value)
       let regionCheck = solver.checkRegionPlacement(puzzle, rowNumber, colNumber, value)
