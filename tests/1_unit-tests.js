@@ -102,7 +102,7 @@ suite('UnitTests', () => {
 
   })
 
-  suite('Validating region Placements', () => {
+  suite('Validating Region Placements', () => {
 
     test('Logic handles a valid region (3x3 grid) placement', () => {
       // let puzzleObject1 = getPuzzleObject(puzzlesAndSolutions[0][0])
